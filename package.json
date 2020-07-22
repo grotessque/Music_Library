@@ -1,0 +1,27 @@
+{
+  "name": "music_library",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schaslivchikk/Music_Library.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schaslivchikk/Music_Library/issues"
+  },
+  "homepage": "https://github.com/schaslivchikk/Music_Library#readme",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "latest",
+    "express": "latest",
+    "faker": "^4.1.0",
+    "hbs": "^4.1.1"
+  }
+}
