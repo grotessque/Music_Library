@@ -4,21 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/index/style.css">
+    <link rel="stylesheet" href="css/reg/style.css">
     <title>{{title}}</title>
 </head>
 <body>
     <header>
+        <a href="/">Home</a>
         <a href="/login">Login</a>
         <a href="/register">Register</a>
     </header>
     <main>
-        <div id="form">
-            <input id="email"  type="email">email
-            <input id="password" type="password">password
-            <input id="f_name" type="text">First name
-            <input id="l_name" type="text">Last name
-            <input type="submit" id="submit">Sign up
-        </div>
+        <!--   Якщо коренева сторінка не потрібно відображати body     -->
+        {{#if not_home}}
+        {{{body}}}
+        {{/if}}
     </main>
     <footer></footer>
 </body>

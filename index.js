@@ -1,38 +1,46 @@
 const express = require('express');
-const app = express();
-const path = require('path');
 const cors = require('cors');
-const hbs = require('hbs');
+const expressHbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 
+const app = express();
+
 app.use(cors());
+
+// Serve static files
 app.use(express.static('static'));
+
+// Register views (templates)
+app.engine('hbs', expressHbs({
+    layoutsDir: './views',
+    defaultLayout: 'index',
+    extname: 'hbs'
+}))
+
 app.set('view engine', 'hbs');
-app.set('views', __dirname + '/templates');
 
-hbs.registerPartial('index', 'index'); 
-
+// Parse BODY for POST requests
 app.use(bodyParser.urlencoded({ extended: false }));
-
 app.use(bodyParser.json());
 
 app.get('/', function(req, res) {
-    res.render(path.join(__dirname + '/templates/index.hbs'), {
+    res.render('index.hbs', {
         title: 'Music Library'
     });
 });
 
 app.get('/login', function(req, res) {
-    res.render(path.join(__dirname + '/templates/auth/login.hbs'), {
+    res.render('login.hbs', {
         title: 'Login',
-
-    })
+        not_home: true
+    });
 });
 
 app.get('/register', function(req, res) {
-    res.render(path.join(__dirname + '/templates/auth/reg.hbs'), {
-        title: 'Register'
+    res.render('reg.hbs', {
+        title: 'Register',
+        not_home: true
     })
 });
 
@@ -87,7 +95,7 @@ app.post('/register', function(req, res) {
 //         min = Math.ceil(min);
 //         max = Math.floor(max);
 //         return Math.floor(Math.random() * (max - min)) + min;
-//     }    
+//     }
 
 //     res.sendFile(path.join(__dirname + '/content.hbs'))
 // });
