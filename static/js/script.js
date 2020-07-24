@@ -42,6 +42,31 @@ if (submit) {
     });
 }
 
+const login_btn = document.getElementById('login_btn');
+
+if (login_btn) {
+    login_btn.addEventListener('click', function() {
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const error_message = document.getElementById('error_message');
+
+        make_request('/login', function(request) {
+            if (request.status === 200) {
+                const res = JSON.parse(request.responseText);
+                localStorage.setItem('token', res.token);
+                error_message.innerText = '';
+            } else if (request.status === 400) {
+                error_message.innerText = 'Email or password are required';
+            } else if (request.status === 404) {
+                error_message.innerText = 'User not found';
+            }
+        }, 'POST', {
+            email: email.value,
+            password: password.value
+        })
+    })
+}
+
 
 
 // () => {

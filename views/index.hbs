@@ -13,19 +13,22 @@
         <div class="enter">
             <a href="/login">Login</a>
             <a href="/register">Register</a>
+            <a href="/music">Music</a>
         </div>
     </header>
     <main>
         <!--   Якщо коренева сторінка не потрібно відображати body     -->
         {{#if not_home}}
-        {{{body}}}
+            {{#if authorized}}
+            {{{body}}}
+            {{else}}
+            <p>Please authorize</p>
+            {{/if}}
+        {{else}}
+        <h1>Hello from Music Library</h1>  
         {{/if}}
     </main>
     <footer></footer>
 </body>
 <script src="js/script.js"></script>
 </html>
-
-<p class="ttt">text</p>
-
-p.ttt text 

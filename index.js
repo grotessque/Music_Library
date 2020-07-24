@@ -2,8 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const expressHbs = require('express-handlebars');
 const bodyParser = require('body-parser');
-const fs = require('fs');
 
+// Controllers
+const auth = require('./controllers/auth');
+
+// Main app
 const app = express();
 
 app.use(cors());
@@ -24,6 +27,12 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+app.use(function(req, res, next) {
+    console.log(`--> ${req.method}: ${req.originalUrl}`);
+    next();
+    // console.log(`<-- ${res.method}: ${res.originalUrl} - ${res.status}`);
+});
+
 app.get('/', function(req, res) {
     res.render('index.hbs', {
         title: 'Music Library'
@@ -33,39 +42,30 @@ app.get('/', function(req, res) {
 app.get('/login', function(req, res) {
     res.render('login.hbs', {
         title: 'Login',
-        not_home: true
+        not_home: true,
+        authorized: true
+    });
+});
+
+app.get('/music', function(req, res) {
+    res.render('music.hbs', {
+        title: 'Music',
+        not_home: true,
+        authorized: true
     });
 });
 
 app.get('/register', function(req, res) {
     res.render('reg.hbs', {
         title: 'Register',
-        not_home: true
+        not_home: true,
+        authorized: true
     })
 });
 
-app.post('/login', function(req, res) {
-    res.send({});
-});
+app.post('/login', auth.login);
 
-app.post('/register', function(req, res) {
-    // TODO: Перевіряти вхідні дані (валідація) + Чи є уже такий ЕМЕЙЛ + не зберігати пароль в явному вигляді
-    const { login, password, f_name, l_name } = req.body;
-    const db = require('./db/users.json');
-
-    const user = {
-        id: db.length + 1,
-        ...req.body
-    };
-
-    db.push(user);
-
-    fs.writeFile('./db/users.json', JSON.stringify(db, null, '\t'), (err) => {
-        if (err) console.err(err);
-    });
-
-    res.send(user);
-});
+app.post('/register', auth.register);
 
 // app.get('/api/login', function(req, res) {
 //     const { email, password } = req.query;
